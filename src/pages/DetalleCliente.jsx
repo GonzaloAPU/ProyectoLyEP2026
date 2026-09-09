@@ -1,7 +1,14 @@
 import '../css/detallecliente.css'
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
- 
+
+const sanitizarCliente = (datosCliente) => {
+  const clienteSinDatosSensibles = { ...datosCliente };
+  delete clienteSinDatosSensibles.password;
+
+  return clienteSinDatosSensibles;
+};
+
 const DetalleCliente = () => {
  const { id } = useParams();
   const navigate = useNavigate();
@@ -13,7 +20,7 @@ const DetalleCliente = () => {
   useEffect(() => {
     fetch(`https://fakestoreapi.com/users/${id}`)
       .then((res) => res.json())
-      .then((data) => setCliente(data));
+      .then((data) => setCliente(sanitizarCliente(data)));
   }, [id]);
 
   const eliminarCliente = async () => {
