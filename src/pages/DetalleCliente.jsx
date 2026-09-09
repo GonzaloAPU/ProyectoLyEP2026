@@ -16,26 +16,31 @@ const DetalleCliente = () => {
       .then((data) => setCliente(data));
   }, [id]);
 
-  const eliminarCliente = async () => {
-    try {
-      const respuesta = await fetch(
-        `https://fakestoreapi.com/users/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
+ const eliminarCliente = async () => {
+  try {
+   const respuesta = await fetch(`https://fakestoreapi.com/users/${id}`, {
+      method: "DELETE",
+    });
 
-      if (respuesta.ok) {
-        setMensaje("Cliente eliminado correctamente");
+    if (respuesta.ok) {
+       const usuarioSesion = JSON.parse(localStorage.getItem("usuarioLogueado"));
+       const emailUsuario = usuarioSesion ? usuarioSesion.email : "sesion_general";
+       const claveStorage = `clientes_borrados_${emailUsuario}`;
 
-        setTimeout(() => {
-          navigate("/clientes");
-        }, 2000);
-      }
-    } catch (error) {
-      setMensaje("Error al eliminar cliente");
+       const borrados = JSON.parse(sessionStorage.getItem(claveStorage) || "[]");
+       sessionStorage.setItem(claveStorage, JSON.stringify([...borrados, Number(id)]));
+
+       setMensaje("Cliente eliminado correctamente");
+
+       setTimeout(() => {
+       navigate("/clientes");
+      }, 1500);
     }
-  };
+   } catch (error) {
+    setMensaje("Error al eliminar cliente");
+   }
+ };
+
   if (!cliente) {
     return <h2>Cargando cliente...</h2>;
   }

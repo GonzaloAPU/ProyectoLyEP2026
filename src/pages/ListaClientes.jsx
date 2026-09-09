@@ -10,23 +10,27 @@ const ListaClientes = () => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    fetch("https://fakestoreapi.com/users")
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Error al obtener clientes");
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setClientes(data);
-        setLoading(false);
-      })
-      .catch(() => {
-        setError(true);
-        setLoading(false);
-      });
-  }, []);
+  fetch("https://fakestoreapi.com/users")
+    .then((res) => {
+      if (!res.ok) throw new Error("Error al obtener clientes");
+      return res.json();
+    })
+    .then((data) => {
+      const usuarioSesion = JSON.parse(localStorage.getItem("usuarioLogueado"));
+      const emailUsuario = usuarioSesion ? usuarioSesion.email : "sesion_general";
+      const claveStorage = `clientes_borrados_${emailUsuario}`;
 
+      const borrados = JSON.parse(sessionStorage.getItem(claveStorage) || "[]");
+      const listaFiltrada = data.filter((cliente) => !borrados.includes(cliente.id));
+
+      setClientes(listaFiltrada);
+      setLoading(false);
+    })
+    .catch(() => {
+      setError(true);
+      setLoading(false);
+    });
+}, []);
   const clientesFiltrados = clientes.filter(
     (cliente) =>
       cliente.name.lastname
