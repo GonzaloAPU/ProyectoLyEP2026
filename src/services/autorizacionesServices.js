@@ -12,4 +12,22 @@ export const login = async (email, password, sector) => {
     { email: 'guadalupe@gmail.com', password: 'Admin123', nombre: 'Guadalupe', sector: 'Soporte' },
     { email: 'lourdes@gmail.com', password: 'Admin123', nombre: 'Lourdes', sector: 'Gerencia' }
   ];
-}
+
+  //3. Buscamos el usuario en la base de datos simulada
+  const usuarioEncontrado = usuariosSimulados.find(
+    (u) => u.email === email && u.password === password && u.sector === sector
+  );
+
+  if(!usuarioEncontrado) {
+    return null;
+  }
+
+  //4. Retorna solo los datos publicos + un token simulado
+  return{
+    nombre: usuarioEncontrado.nombre,
+    email: usuarioEncontrado.email,
+    sector: usuarioEncontrado.sector,
+    token: `fake-jwt-token-${usuarioEncontrado.nombre.toLowerCase()}-12345`
+  };
+};
+export default { login };
