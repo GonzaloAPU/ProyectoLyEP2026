@@ -11,6 +11,7 @@ const Login = () => {
   const [errores, setErrores] = useState({})
   const { setAdmin } = useAutorizaciones()
   const navigate = useNavigate()
+
   const validar = () => {
     const nuevosErrores = {}
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -36,10 +37,12 @@ const Login = () => {
     setErrores(nuevosErrores)
     return Object.keys(nuevosErrores).length === 0
   }
-  const manejarSubmit = (e) => {
+ //Agregue el async 
+  const manejarSubmit = async (e) => {
     e.preventDefault()
     if (!validar()) return
-    const usuario = AutorizacionesService.login(
+    //await para esperar la respuesta de la promesa
+    const usuario = await AutorizacionesService.login(
       email,
       password,
       sector
@@ -49,6 +52,10 @@ const Login = () => {
       return
     }
     localStorage.setItem("role", usuario.sector)
+    // Guardar el token ficticio 
+    if (usuario.token) {
+      localStorage.setItem("token", usuario.token)
+    }
     setAdmin({
       nombre: usuario.nombre,
       email: usuario.email,
