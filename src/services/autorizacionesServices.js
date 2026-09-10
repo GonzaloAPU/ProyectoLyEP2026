@@ -36,6 +36,8 @@ const usuarios = [
     sector: 'Gerencia'
   }
 ]
+const obtenerUsuarios = () => usuarios
+
 const login = (email, password, sector) => {
   return usuarios.find(
     usuario =>
@@ -45,5 +47,6 @@ const login = (email, password, sector) => {
   )
 }
 export default {
+  obtenerUsuarios,
   login
 }
