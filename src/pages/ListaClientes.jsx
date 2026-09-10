@@ -16,14 +16,23 @@ const ListaClientes = () => {
       return res.json();
     })
     .then((data) => {
+      // 1. Obtenemos el usuario activo
       const usuarioSesion = JSON.parse(localStorage.getItem("usuarioLogueado"));
       const emailUsuario = usuarioSesion ? usuarioSesion.email : "sesion_general";
-      const claveStorage = `clientes_borrados_${emailUsuario}`;
 
-      const borrados = JSON.parse(sessionStorage.getItem(claveStorage) || "[]");
-      const listaFiltrada = data.filter((cliente) => !borrados.includes(cliente.id));
+      // 2. Definimos las claves aisladas por su email
+      const claveBorrados = `clientes_borrados_${emailUsuario}`;
+      const claveCreados = `clientes_creados_${emailUsuario}`;
 
-      setClientes(listaFiltrada);
+      // 3. Traemos las listas del sessionStorage
+      const borrados = JSON.parse(sessionStorage.getItem(claveBorrados) || "[]");
+      const creados = JSON.parse(sessionStorage.getItem(claveCreados) || "[]");
+
+      // 4. Filtramos los borrados de la lista que viene de la API
+      const listaApiFiltrada = data.filter((cliente) => !borrados.includes(cliente.id));
+
+      // 5. UNIMOS los nuevos creados al principio de la lista
+      setClientes([...creados, ...listaApiFiltrada]);
       setLoading(false);
     })
     .catch(() => {
