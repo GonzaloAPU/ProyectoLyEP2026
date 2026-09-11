@@ -1,7 +1,14 @@
 import '../css/detallecliente.css'
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
- 
+
+const sanitizarCliente = (datosCliente) => {
+  const clienteSinDatosSensibles = { ...datosCliente };
+  delete clienteSinDatosSensibles.password;
+
+  return clienteSinDatosSensibles;
+};
+
 const DetalleCliente = () => {
  const { id } = useParams();
   const navigate = useNavigate();
@@ -118,14 +125,10 @@ const DetalleCliente = () => {
         <strong>Ciudad:</strong> {cliente.address.city}
       </p>
 
-      <h2>Credenciales</h2>
+      <h2>Datos de la cuenta</h2>
 
       <p>
         <strong>Usuario:</strong> {cliente.username}
-      </p>
-
-      <p>
-        <strong>Contraseña:</strong> {cliente.password}
       </p>
 
       {role?.trim() === "Gerencia" && (
