@@ -28,6 +28,21 @@ export const login = async (email, password, sector) => {
   if(!usuarioEncontrado) {
     return null;
   }
+]
+const obtenerUsuarios = () => usuarios
+
+const login = (email, password, sector) => {
+  return usuarios.find(
+    usuario =>
+      usuario.email === email &&
+      usuario.password === password &&
+      usuario.sector === sector
+  )
+}
+export default {
+  obtenerUsuarios,
+  login
+}
 
   //4. Retorna solo los datos publicos + un token simulado
   return{
