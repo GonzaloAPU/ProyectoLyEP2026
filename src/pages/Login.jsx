@@ -48,7 +48,12 @@ const Login = () => {
      alert('Verifique los datos')
       return
     }
+
+    // 1. Guardas el rol (como ya tenías)
     localStorage.setItem("role", usuario.sector)
+
+    // 2. AGREGAR ESTA LÍNEA: Guardas todo el objeto usuario (incluyendo su email)
+    localStorage.setItem("usuarioLogueado", JSON.stringify(usuario))
     setAdmin({
       nombre: usuario.nombre,
       email: usuario.email,
