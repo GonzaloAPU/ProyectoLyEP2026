@@ -1,3 +1,10 @@
+/**
+ * Simula el proceso de autenticación de un usuario.
+ * @param {string} email - Correo del usuario.
+ * @param {string} password - Contraseña ingresada.
+ * @param {string} sector - Sector seleccionado (Soporte/Gerencia).
+ * @returns {Promise<Object|null>} Datos del usuario con token de sesión o null si falla.
+ */
 //SIMULACION DE AUTENTICACION
 export const login = async (email, password, sector) => {
   //1. simulamos la peticion a un servidor backend
