@@ -9,6 +9,10 @@ const ListaClientes = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
+  const agregarClienteALista = (nuevoCliente) => {
+    setClientes((clientesActuales) => [nuevoCliente, ...clientesActuales]);
+  };
+
   useEffect(() => {
   fetch("https://fakestoreapi.com/users")
     .then((res) => {
@@ -62,7 +66,7 @@ const ListaClientes = () => {
     <div className="clientes-container">
 
       <h1>Clientes</h1>
-      <FormCliente />
+      <FormCliente onClienteCreado={agregarClienteALista} />
 
       <hr />
 

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Form, Button, Alert, Spinner } from "react-bootstrap";
 import clientesService from "../services/clientesService";
 
-const FormCliente = () => {
+const FormCliente = ({ onClienteCreado }) => {
 
     const [nombre, setNombre] = useState("");
     const [email, setEmail] = useState("");
@@ -75,6 +75,8 @@ const FormCliente = () => {
                 claveCreados,
                 JSON.stringify([nuevoCliente, ...creadosPrevios])
             );
+
+            onClienteCreado(nuevoCliente);
 
             setMensaje(`Cliente creado correctamente. ID asignado: ${idTemporal}`);
 
