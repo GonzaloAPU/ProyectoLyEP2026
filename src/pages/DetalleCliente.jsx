@@ -31,7 +31,7 @@ const DetalleCliente = () => {
 
     if (clienteLocal) {
       // Si existe localmente, lo asignamos de inmediato sin llamar a la API
-      setCliente(clienteLocal);
+      setCliente(sanitizarCliente(clienteLocal));
     } else {
       // Si no es un cliente local, realizamos el fetch normal a la API
       fetch(`https://fakestoreapi.com/users/${id}`)
@@ -39,7 +39,7 @@ const DetalleCliente = () => {
           if (!res.ok) throw new Error("No se pudo obtener el cliente");
           return res.json();
         })
-        .then((data) => setCliente(data))
+        .then((data) => setCliente(sanitizarCliente(data)))
         .catch(() => setMensaje("Error al cargar los datos del cliente"));
     }
   }, [id]);
